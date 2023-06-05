@@ -1,15 +1,8 @@
 void main() {
   Set<AgriculturalMachinery> machines = {};
 
-  mapAfter2010.forEach((key, value) {
-    var allMachines = value.map((e) => e.machineries).reduce((value, element) => element);
-    machines.addAll(allMachines);
-  });
-
-  mapBefore2010.forEach((key, value) {
-    var allMachines = value.map((e) => e.machineries).reduce((value, element) => element);
-    machines.addAll(allMachines);
-  });
+  machines.addAll(_getAllMachinery(mapAfter2010));
+  machines.addAll(_getAllMachinery(mapBefore2010));
 
   for (var element in machines) {
     print(element.id + " \t " + element.releaseDate.year.toString());
@@ -25,6 +18,10 @@ void main() {
   final partOldYears = onlyYears.take((onlyYears.length / 2).truncate());
   final averageLifetimePart = _calcAverage(partOldYears);
   print("Average value of 50% old michines is $averageLifetimePart");
+}
+
+Iterable<AgriculturalMachinery> _getAllMachinery(Map<Countries, List<Territory>> list) {
+  return list.entries.map((c) => c.value.expand((element) => element.machineries)).expand((element) => element);
 }
 
 int _calcAverage(Iterable<int> list) {
