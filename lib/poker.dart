@@ -8,15 +8,17 @@ class PokerPlayer {
   /// Вычислить шансы на выигрыш
   void calculateProbabilities(
     List<String> cardOnDesk,
-    double Function(List<String> p1, List<String> p2) strategy,
+    Strategy strategy,
   ) =>
       _surenessInWin = strategy(cardOnDesk, _currentHand);
 }
 
+typedef Strategy = double Function(List<String> a, List<String> b);
+
 void main() {
   final opponent = PokerPlayer();
 
-  final fakeStrategy = (List<String> p0, List<String> p1) {
+  final Strategy fakeStrategy = (p0, p1) {
     print("Opponent hand is");
     p1.forEach(print);
     return 1.0;
